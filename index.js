@@ -2,17 +2,18 @@ const { spawn } = require("child_process");
 const express = require("express");
 const chalk = require("chalk");
 
-// --- 1. SETUP THE WEB SERVER FOR RENDER ---
+// --- 1. SETUP THE UPTIME SERVER ---
 const app = express();
-const port = process.env.PORT || 3000; // Render provides the port to use in process.env.PORT
+// Render provides the port to use in the `PORT` environment variable.
+const port = process.env.PORT || 3000; 
 
-// This is the "health check" endpoint. Render pings this to know that your app is alive.
+// This is the endpoint that UptimeRobot will ping.
 app.get('/', (req, res) => {
-  res.send('Xplicit Shop Bot is alive and running!');
+  res.send('✅ Xplicit Shop Bot is alive!');
 });
 
 app.listen(port, () => {
-  console.log(chalk.green(`✅ Web server is listening on port ${port}.`));
+  console.log(chalk.green(`Uptime server is listening on port ${port}.`));
 });
 
 // --- 2. START THE BOT PROCESS ---
@@ -21,7 +22,7 @@ function startBot() {
 
     const child = spawn("node", ["--trace-warnings", "--async-stack-traces", "main.js"], {
         cwd: __dirname,
-        stdio: "inherit",
+        stdio: "inherit", // This will show the bot's logs in the main console
         shell: true
     });
 
@@ -39,5 +40,5 @@ function startBot() {
     });
 }
 
-// Start the bot
+// Start the bot's main logic
 startBot();
