@@ -1,7 +1,7 @@
 {
   "name": "xplicit-shop-bot",
   "version": "1.0.0",
-  "description": "A Facebook Messenger bot for Xplicit Shop, based on BotPack.",
+  "description": "A Facebook Messenger bot for Xplicit Shop.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -9,9 +9,9 @@
   "author": "Your Name",
   "license": "MIT",
   "dependencies": {
-    "fca-unofficial": "^1.3.10",
-    "axios": "^1.9.0",
     "chalk": "^4.1.2",
+    "express": "^4.19.2",
+    "fca-unofficial": "^1.3.10",
     "fs-extra": "^11.2.0",
     "moment": "^2.30.1",
     "moment-timezone": "^0.5.48"
