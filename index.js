@@ -1,27 +1,24 @@
 const { spawn } = require("child_process");
+const express = require("express");
 const chalk = require("chalk");
-const express = require('express');
 
-// --- 1. WEB SERVER SETUP ---
+// --- 1. SETUP THE WEB SERVER FOR RENDER ---
 const app = express();
-const port = process.env.PORT || 3000; // Use Render's port or 3000 for local testing
+const port = process.env.PORT || 3000; // Render provides the port to use in process.env.PORT
 
-// This creates a simple webpage to prove the server is alive.
+// This is the "health check" endpoint. Render pings this to know that your app is alive.
 app.get('/', (req, res) => {
-  res.send('Xplicit Shop Bot is alive!');
+  res.send('Xplicit Shop Bot is alive and running!');
 });
 
-// Start the web server.
 app.listen(port, () => {
-  console.log(chalk.green(`Web server listening on port ${port}`));
-  console.log(chalk.blue('Starting the bot process now...'));
-  
-  // --- 2. START THE BOT AFTER THE SERVER IS RUNNING ---
-  startBot();
+  console.log(chalk.green(`✅ Web server is listening on port ${port}.`));
 });
 
-// --- 3. BOT PROCESS LAUNCHER (This part is the same as before) ---
+// --- 2. START THE BOT PROCESS ---
 function startBot() {
+    console.log(chalk.bold.cyan('Starting bot process (main.js)...'));
+
     const child = spawn("node", ["--trace-warnings", "--async-stack-traces", "main.js"], {
         cwd: __dirname,
         stdio: "inherit",
@@ -33,7 +30,7 @@ function startBot() {
             console.error(chalk.red(`Bot process crashed with exit code ${code}. Restarting in 5 seconds...`));
             setTimeout(startBot, 5000);
         } else {
-            console.log(chalk.yellow('Bot process exited cleanly. Not restarting.'));
+            console.log(chalk.green('Bot process exited cleanly.'));
         }
     });
 
@@ -41,3 +38,6 @@ function startBot() {
         console.error(chalk.red(`An error occurred with the bot process: ${error}`));
     });
 }
+
+// Start the bot
+startBot();
